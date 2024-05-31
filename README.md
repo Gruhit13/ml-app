@@ -15,25 +15,25 @@ To use this project, you can follow these steps:
 1. Clone this repository to your local machine using:
 
    ```
-   git clone https://github.com/your-username/iris-flower-classification.git
+   git clone https://github.com/Gruhit13/ml-app.git
    ```
 
 2. Navigate to the project directory:
 
    ```
-   cd iris-flower-classification
+   cd ml-app
    ```
 
 3. Build the Docker image using the provided Dockerfile:
 
    ```
-   docker build -t iris-classifier .
+   docker build -t ml-app .
    ```
 
 4. Run the Docker container:
 
    ```
-   docker run -d -p 5000:5000 iris-classifier
+   docker run -d -p 4000:80 ml-app
    ```
 
 5. Access the application by navigating to http://localhost:4000 in your web browser.
