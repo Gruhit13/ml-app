@@ -1,7 +1,7 @@
-from xgboost import XGBClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.svm import SVC
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
@@ -17,26 +17,33 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # Train the model
-clf = XGBClassifier(objective='multi:softprob')
+clf = SVC(kernel='rbf', probability=True)
 clf.fit(X_train, y_train)
 
 # get prediction from the model
 y_pred = clf.predict(X_test)
 print("Y_pred shape: ", y_pred.shape)
 
-clf_report = classification_report(y_test, y_pred, target_names=labels)
-print(clf_report)
+precision = precision_score(y_test, y_pred, average='macro')
+recall = recall_score(y_test, y_pred, average='macro')
 
-# Write the classification report to a file
-with open('clf_report.txt', 'w') as clf_rprt_file:
-	clf_rprt_file.write(clf_report)
+with open('report.txt', 'w') as report:
+	report.write("="*15 + "| ")
+	report.write("Support Vector Classifier Report")
+	report.write(" |" + "="*15 + "\n")
+	report.write(f'Precision: {precision:.4f}\n')
+	report.write(f'Recall: {recall:.4f}')
+
+print(f'Precision: {precision:.4f}')
+print(f'Recall: {recall:.4f}')
 
 conf_mat = confusion_matrix(y_test, y_pred)
 sns.heatmap(conf_mat, annot=True, fmt='d', xticklabels=labels, yticklabels=labels)
+plt.title("SVC Confusion Matrix", {"size": 22})
 plt.xlabel("Predicted", {"size":20})
 plt.ylabel("Actual", {"size": 20})
 plt.savefig("confusion_matrix.png")
 
 # Saving the model as joblib to parallelize the process
-with open('model.sav', 'wb') as f:
+with open('svc_model.sav', 'wb') as f:
 	joblib.dump(clf, f)
