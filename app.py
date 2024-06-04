@@ -36,7 +36,6 @@ if st.button('Predict Flower'):
     clf = joblib.load('./model.sav')
     features = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
     prediction = clf.predict_proba(features)
-    st.write(prediction)
 
     pred_label = np.argmax(prediction, axis=-1)
     st.markdown(f':green[The flower is {category_to_flower[pred_label[0]].capitalize()}]')
