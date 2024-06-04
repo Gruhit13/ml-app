@@ -33,7 +33,7 @@ with cols[1]:
 st.text('')
 if st.button('Predict Flower'):
     # Load the model
-    clf = joblib.load('./model.sav')
+    clf = joblib.load('./kmeans_model.sav')
     features = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
     prediction = clf.predict_proba(features)
     st.write(prediction)
